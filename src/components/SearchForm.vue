@@ -65,8 +65,8 @@ export default {
 }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-
+<style> 
+// avoided scoped css, doesnt affect deep child elements for dynamically rendered html, solution-> combinators >>>
 input {
   width: 100%;
   padding: 20px;
