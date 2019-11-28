@@ -1,7 +1,7 @@
 <template>
   <form class="search-form">
     <input type="text" class="search" placeholder="City or State" v-model="searchItem" @change="displayMatches" @keyup="displayMatches">
-    <ul class="suggestions">
+    <ul class="suggestions" v-html="suggestionsList">
       <li>Filter for a city</li>
       <li>or a state</li>
     </ul>
@@ -13,11 +13,15 @@ export default {
   name: 'SearchForm',
   data () {
     return {
-      searchItem:''
+      searchItem:'',
+      suggestionsList:"<li>Filter for a city</li><li>or a state</li>"
     }
   },
   props: {
     cities: Array
+  },
+  mounted() {
+    console.log(this.searchItem)
   },
   methods: {
 
@@ -34,6 +38,10 @@ export default {
     },
 
     displayMatches(){
+      if(this.searchItem === ''){
+        this.suggestionsList = "<li>Filter for a city</li><li>or a state</li>"
+        return
+      }
       const matchArray = this.findMatches(this.searchItem, this.cities);
       const html = matchArray.map(place => {
       const regex = new RegExp(this.searchItem, 'gi');
@@ -48,7 +56,8 @@ export default {
       }).join('');
       const suggestions = document.querySelector('.suggestions');
       console.log(suggestions)
-      suggestions.innerHTML = html;
+      this.suggestionsList = html;
+
     }
     
   }
